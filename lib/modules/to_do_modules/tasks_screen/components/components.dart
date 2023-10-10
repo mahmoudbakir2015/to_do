@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/shared/cubit/to_do_cubit/cubit.dart';
 
 Widget buildTaskItem({
+  required int id,
   required String titleTask,
   required String dateTask,
   required String timeTask,
@@ -9,7 +11,7 @@ Widget buildTaskItem({
   return Dismissible(
     key: const Key("0"),
     onDismissed: (direction) {
-      // AppCubit.get(context).deleteFromDatabase(id: id);
+      AppCubit.get(context).deleteFromDatabase(id: id);
     },
     child: Padding(
       padding: const EdgeInsets.all(
@@ -54,7 +56,10 @@ Widget buildTaskItem({
           ),
           IconButton(
             onPressed: () {
-              // AppCubit.get(context).updateDatabase(status: 'done', id: );
+              AppCubit.get(context).updateDatabase(
+                status: 'done',
+                id: id,
+              );
             },
             icon: const Icon(
               Icons.check_box,
@@ -62,7 +67,12 @@ Widget buildTaskItem({
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              AppCubit.get(context).updateDatabase(
+                status: 'archived',
+                id: id,
+              );
+            },
             icon: const Icon(
               Icons.archive,
               color: Colors.black45,

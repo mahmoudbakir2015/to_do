@@ -147,9 +147,11 @@ class HomeLayoutToDo extends StatelessWidget {
                       )
                       .closed
                       .then(
-                        (value) {
-                          cubit.changeStateOpenBottomSheet(
-                              isShow: false, icon: Icons.edit);
+                        (value) async{
+                           cubit.changeStateOpenBottomSheet(
+                            isShow: false,
+                            icon: Icons.edit,
+                          );
                         },
                       );
                 }
@@ -159,9 +161,9 @@ class HomeLayoutToDo extends StatelessWidget {
                     date: cubit.dateController.text,
                     time: cubit.timeController.text,
                   );
+
                 }
               },
-              // insertDatabase();
 
               child: Icon(
                 cubit.faIcon,

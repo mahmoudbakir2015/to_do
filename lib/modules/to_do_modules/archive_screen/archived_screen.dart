@@ -16,6 +16,7 @@ class ArchivedScreen extends StatelessWidget {
         return ListView.separated(
           itemBuilder: (BuildContext context, int index) {
             return buildTaskItem(
+              id:AppCubit.get(context).id[index],
               titleTask: '${tasks[index]['title']}',
               dateTask: '${tasks[index]['date']}',
               timeTask: '${tasks[index]['time']}',

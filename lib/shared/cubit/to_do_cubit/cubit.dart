@@ -22,6 +22,7 @@ class AppCubit extends Cubit<AppStates> {
   int currentPage = 0;
   Database? database;
   List<Map> newTasks = [];
+  List id=[];
   List<Map> doneTasks = [];
   List<Map> archiveTasks = [];
 
@@ -81,7 +82,7 @@ class AppCubit extends Cubit<AppStates> {
   }) async {
     await database?.transaction((txn) {
       return txn.rawInsert('''
-    INSERT INTO tasks(title,date,time,status) VALUES ("$title","$date","$time,"new"")
+    INSERT INTO tasks(title,date,time,status) VALUES ("$title","$date","$time","new")
     ''').then((value) {
         print("$value insert Successfully ");
         emit(
@@ -98,6 +99,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void getDataFromDatabase(Database db) {
+     id=[];
     newTasks = [];
     doneTasks = [];
     archiveTasks = [];
@@ -109,16 +111,19 @@ class AppCubit extends Cubit<AppStates> {
   SELECT * FROM tasks
   ''').then((value) {
       for (var element in value) {
+        print(element['status']);
         if (element['status'] == 'new') {
           newTasks.add(element);
         } else if (element['status'] == 'done') {
           doneTasks.add(element);
-        } else {
-          archiveTasks.add(element);
-        }
+        } else if (element['status'] == 'archived') {
+          archiveTasks.add(element);}
+        id.add( element['id']);
+        print(id);
       }
 
       newTasks = value;
+
       emit(
         AppGetDatabaseState(),
       );
