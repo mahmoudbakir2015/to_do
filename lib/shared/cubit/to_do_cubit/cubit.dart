@@ -22,7 +22,7 @@ class AppCubit extends Cubit<AppStates> {
   int currentPage = 0;
   Database? database;
   List<Map> newTasks = [];
-  List id=[];
+  List id = [];
   List<Map> doneTasks = [];
   List<Map> archiveTasks = [];
 
@@ -53,19 +53,12 @@ class AppCubit extends Cubit<AppStates> {
       onCreate: (Database db, int version) async {
         await db.execute('''
         CREATE TABLE tasks (id INTEGER PRIMARY KEY,title TEXT, date TEXT,status TEXT,time TEXT)
-        ''').then((value) {
-          print("Database Created");
-        }).catchError(
-          (error) {
-            print(
-              "Error when creating table is ${error.toString()}",
+        ''').then((value) {}).catchError(
+              (error) {},
             );
-          },
-        );
       },
       onOpen: (db) {
         getDataFromDatabase(db);
-        print("database opened");
       },
     ).then((value) {
       database = value;
@@ -84,22 +77,17 @@ class AppCubit extends Cubit<AppStates> {
       return txn.rawInsert('''
     INSERT INTO tasks(title,date,time,status) VALUES ("$title","$date","$time","new")
     ''').then((value) {
-        print("$value insert Successfully ");
         emit(
           AppInsertDatabaseState(),
         );
 
         getDataFromDatabase(database!);
-      }).catchError((error) {
-        print(
-          "Error when inserting data is ${error.toString()}",
-        );
-      });
+      }).catchError((error) {});
     });
   }
 
   void getDataFromDatabase(Database db) {
-     id=[];
+    id = [];
     newTasks = [];
     doneTasks = [];
     archiveTasks = [];
@@ -111,15 +99,14 @@ class AppCubit extends Cubit<AppStates> {
   SELECT * FROM tasks
   ''').then((value) {
       for (var element in value) {
-        print(element['status']);
         if (element['status'] == 'new') {
           newTasks.add(element);
         } else if (element['status'] == 'done') {
           doneTasks.add(element);
         } else if (element['status'] == 'archived') {
-          archiveTasks.add(element);}
-        id.add( element['id']);
-        print(id);
+          archiveTasks.add(element);
+        }
+        id.add(element['id']);
       }
 
       newTasks = value;
