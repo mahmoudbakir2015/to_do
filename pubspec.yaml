@@ -39,10 +39,7 @@ dependencies:
   bloc: ^8.1.1
   flutter_bloc: ^8.1.2
   sqflite_common_ffi: ^2.2.1+1
-  dio: ^5.0.1
   shared_preferences: ^2.0.18
-  webview_flutter: ^4.0.5
-  url_launcher: ^6.1.10
 
 
 dev_dependencies:
